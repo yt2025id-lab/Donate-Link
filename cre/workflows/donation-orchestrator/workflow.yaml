@@ -1,0 +1,30 @@
+# DonateLink CRE Workflow - Donation Orchestrator
+# Listens for DonationReceived events on-chain and orchestrates:
+# 1. Recording donations in Supabase via REST API
+# 2. Enriching data with CoinGecko price API
+# 3. Generating celebration messages via OpenAI
+#
+# This workflow satisfies the Chainlink Convergence Hackathon requirements:
+# - CRE Workflow as orchestration layer
+# - Integrates blockchain with external APIs (Supabase, CoinGecko, OpenAI)
+# - Can be simulated via `cre workflow simulate`
+
+name: donation-orchestrator
+description: "Orchestrates DonateLink donations - listens for on-chain events and triggers off-chain actions"
+
+triggers:
+  - type: evm_log
+    config:
+      chain_id: 84532  # Base Sepolia
+      contract_address: "${DONATELINK_CONTRACT_ADDRESS}"
+      event_signature: "DonationReceived(address,address,string,string,uint256,uint256,address,string,uint256)"
+      confirmations: 1
+
+capabilities:
+  - http_client    # For REST API calls to Supabase, CoinGecko, OpenAI
+  - evm_read       # For reading additional on-chain data
+
+environment:
+  DONATELINK_API_URL: "${DONATELINK_API_URL}"
+  API_SECRET: "${API_SECRET}"
+  OPENAI_API_KEY: "${OPENAI_API_KEY}"

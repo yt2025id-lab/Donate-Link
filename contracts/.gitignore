@@ -1,0 +1,9 @@
+# Dependencies
+/lib/
+
+# Build
+/out/
+/cache/
+
+# Environment
+.env

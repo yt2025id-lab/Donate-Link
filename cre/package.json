@@ -1,0 +1,14 @@
+{
+  "name": "donatelink-cre-workflow",
+  "version": "1.0.0",
+  "description": "CRE Workflow for DonateLink - Donation Orchestrator",
+  "type": "module",
+  "scripts": {
+    "build": "tsc",
+    "simulate": "cre workflow simulate --workflow donation-orchestrator"
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "typescript": "^5.4.0"
+  }
+}
