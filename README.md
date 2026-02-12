@@ -197,16 +197,14 @@ npm run build
 
 ## Smart Contract Addresses
 
-> Update after deployment
-
 | Contract | Network | Address |
 |---|---|---|
-| DonateLink | Base Sepolia | `TBD` |
-| CCIPReceiver | Base Sepolia | `TBD` |
-| Automation | Base Sepolia | `TBD` |
-| CCIPSender | Ethereum Sepolia | `TBD` |
-| CCIPSender | Arbitrum Sepolia | `TBD` |
-| CCIPSender | Optimism Sepolia | `TBD` |
+| DonateLink | Base Sepolia | [`0x5217eAA2569793869caAeb8286a9Ce0854426901`](https://sepolia.basescan.org/address/0x5217eAA2569793869caAeb8286a9Ce0854426901) |
+| CCIPReceiver | Base Sepolia | [`0x48e06ef78ff54Be337a604b02d75852ab0c6FC45`](https://sepolia.basescan.org/address/0x48e06ef78ff54Be337a604b02d75852ab0c6FC45) |
+| Automation | Base Sepolia | [`0x0C4C4F264D250Ce93A387B54FB22EFF49935e3A3`](https://sepolia.basescan.org/address/0x0C4C4F264D250Ce93A387B54FB22EFF49935e3A3) |
+| CCIPSender | Ethereum Sepolia | [`0x5217eAA2569793869caAeb8286a9Ce0854426901`](https://sepolia.etherscan.io/address/0x5217eAA2569793869caAeb8286a9Ce0854426901) |
+| CCIPSender | Arbitrum Sepolia | Pending (needs testnet ETH) |
+| CCIPSender | Optimism Sepolia | Pending (needs testnet ETH) |
 
 ## License
 
