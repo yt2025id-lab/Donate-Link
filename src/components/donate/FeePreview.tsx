@@ -10,6 +10,7 @@ type FeePreviewProps = {
   sourceChain: SupportedChainKey;
   platformFeeUsd: number;
   ccipFeeUsd?: number;
+  isFeeLoading?: boolean;
 };
 
 export function FeePreview({
@@ -19,10 +20,10 @@ export function FeePreview({
   sourceChain,
   platformFeeUsd,
   ccipFeeUsd,
+  isFeeLoading,
 }: FeePreviewProps) {
   if (amountUsd <= 0) return null;
 
-  const totalFees = platformFeeUsd + (ccipFeeUsd || 0);
   const streamerReceives = amountUsd - platformFeeUsd;
 
   return (
@@ -43,7 +44,11 @@ export function FeePreview({
           <div className="flex justify-between">
             <span className="text-text-secondary">CCIP bridge fee</span>
             <span className="text-text-muted">
-              ~{ccipFeeUsd ? formatUsd(ccipFeeUsd) : "calculating..."}
+              {isFeeLoading
+                ? "estimating..."
+                : ccipFeeUsd
+                  ? `~${formatUsd(ccipFeeUsd)}`
+                  : "~$2-5 (estimate)"}
             </span>
           </div>
         )}

@@ -54,7 +54,7 @@ export const TOKENS: Record<string, TokenInfo> = {
     name: "Chainlink",
     decimals: 18,
     address: (process.env.NEXT_PUBLIC_LINK_ADDRESS || "0x") as Address,
-    priceFeedAddress: (process.env.NEXT_PUBLIC_LINK_ADDRESS || "0x") as Address,
+    priceFeedAddress: (process.env.NEXT_PUBLIC_LINK_PRICE_FEED || "0x") as Address,
   },
 };
 

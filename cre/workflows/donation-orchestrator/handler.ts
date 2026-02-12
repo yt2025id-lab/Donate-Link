@@ -69,7 +69,8 @@ interface HandlerContext {
 // Token address to symbol mapping (Base Sepolia)
 const TOKEN_SYMBOLS: Record<string, string> = {
   "0x0000000000000000000000000000000000000000": "ETH",
-  // Add USDC and LINK addresses after deployment
+  "0x036cbd53842c5426634e7929541ec2318f3dcf7e": "USDC",
+  "0xe4ab69c077896252fafbd49efd26b5d171a32410": "LINK",
 };
 
 function resolveTokenSymbol(tokenAddress: string): string {

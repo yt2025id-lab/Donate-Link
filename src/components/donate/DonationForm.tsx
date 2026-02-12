@@ -1,12 +1,12 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { useAccount } from "wagmi";
+import { useAccount, useSwitchChain } from "wagmi";
 import { ConnectButton } from "@rainbow-me/rainbowkit";
-import { parseEther, parseUnits, type Address } from "viem";
+import { parseEther, formatEther, type Address } from "viem";
 import { toast } from "sonner";
 import { motion } from "framer-motion";
-import { Send } from "lucide-react";
+import { Send, AlertTriangle } from "lucide-react";
 
 import { AmountSelector } from "./AmountSelector";
 import { TokenSelector } from "./TokenSelector";
@@ -15,8 +15,9 @@ import { FeePreview } from "./FeePreview";
 import { DonationSuccess } from "./DonationSuccess";
 import { useDonateETH, useDonateToken, useCrossChainDonate } from "@/hooks/useDonate";
 import { usePriceFeed } from "@/hooks/usePriceFeed";
+import { useCCIPFeeEstimate } from "@/hooks/useCCIPFee";
 import { TOKENS } from "@/lib/contracts";
-import type { SupportedChainKey } from "@/lib/chains";
+import { SUPPORTED_CHAINS, type SupportedChainKey } from "@/lib/chains";
 
 type DonationFormProps = {
   streamerAddress: string;
@@ -24,7 +25,8 @@ type DonationFormProps = {
 };
 
 export function DonationForm({ streamerAddress, streamerName }: DonationFormProps) {
-  const { isConnected, address } = useAccount();
+  const { isConnected, address, chainId } = useAccount();
+  const { switchChain } = useSwitchChain();
   const [donorName, setDonorName] = useState("");
   const [message, setMessage] = useState("");
   const [amount, setAmount] = useState("");
@@ -58,6 +60,24 @@ export function DonationForm({ streamerAddress, streamerName }: DonationFormProp
 
   const tokenAmount = getTokenAmount();
 
+  // Estimate CCIP fee from contract
+  const { fee: ccipFeeWei, isLoading: isFeeLoading } = useCCIPFeeEstimate(
+    selectedChain,
+    token.address,
+    tokenAmount.toString(),
+    token.decimals,
+    donorName,
+    message,
+  );
+
+  // Convert CCIP fee to USD for display
+  const ccipFeeEth = ccipFeeWei ? parseFloat(formatEther(ccipFeeWei)) : 0;
+  const ccipFeeUsd = ccipFeeEth && ethPrice ? ccipFeeEth * ethPrice : undefined;
+
+  // Check if user is on the correct chain
+  const expectedChainId = SUPPORTED_CHAINS[selectedChain]?.id;
+  const isWrongChain = isConnected && chainId !== expectedChainId;
+
   // Handle active donation states
   const isPending =
     ethDonate.isWritePending || tokenDonate.isWritePending || crossChainDonate.isWritePending;
@@ -71,8 +91,7 @@ export function DonationForm({ streamerAddress, streamerName }: DonationFormProp
       ethDonate.isConfirmed || tokenDonate.isConfirmed || crossChainDonate.isConfirmed;
 
     if (isSuccess && hash) {
-      const chainId = selectedChain === "base" ? 84532 : 11155111;
-      setSuccessData({ txHash: hash, amountUsd, chainId });
+      setSuccessData({ txHash: hash, amountUsd, chainId: expectedChainId });
       setShowSuccess(true);
 
       // Record donation in Supabase
@@ -91,13 +110,24 @@ export function DonationForm({ streamerAddress, streamerName }: DonationFormProp
           source_chain: selectedChain,
           tx_hash: hash,
         }),
-      }).catch(() => {
-        // Non-critical: CRE workflow will also record this
+      }).catch((err) => {
+        console.warn("Failed to record donation in DB (CRE workflow will retry):", err);
       });
 
       toast.success("Donation sent successfully!");
     }
   }, [ethDonate.isConfirmed, tokenDonate.isConfirmed, crossChainDonate.isConfirmed]);
+
+  // Watch for errors
+  useEffect(() => {
+    const error = ethDonate.error || tokenDonate.error || crossChainDonate.error;
+    if (error) {
+      const msg = error.message?.includes("User rejected")
+        ? "Transaction rejected by user"
+        : "Transaction failed. Please try again.";
+      toast.error(msg);
+    }
+  }, [ethDonate.error, tokenDonate.error, crossChainDonate.error]);
 
   const handleSubmit = async () => {
     if (!isConnected || amountUsd <= 0 || tokenAmount <= 0) return;
@@ -120,7 +150,11 @@ export function DonationForm({ streamerAddress, streamerName }: DonationFormProp
           );
         }
       } else {
-        const ccipFee = parseEther("0.01"); // Estimated CCIP fee
+        // Use estimated CCIP fee with 10% buffer, or fallback
+        const fee = ccipFeeWei
+          ? (ccipFeeWei * BigInt(110)) / BigInt(100)
+          : parseEther("0.01");
+
         crossChainDonate.donate(
           selectedChain as "ethereum" | "arbitrum" | "optimism",
           streamer,
@@ -129,12 +163,16 @@ export function DonationForm({ streamerAddress, streamerName }: DonationFormProp
           token.decimals,
           name,
           message,
-          ccipFee
+          fee
         );
       }
     } catch (err) {
       toast.error("Transaction failed. Please try again.");
     }
+  };
+
+  const handleSwitchChain = () => {
+    switchChain({ chainId: expectedChainId });
   };
 
   const resetForm = () => {
@@ -212,14 +250,32 @@ export function DonationForm({ streamerAddress, streamerName }: DonationFormProp
         tokenSymbol={selectedToken}
         sourceChain={selectedChain}
         platformFeeUsd={platformFeeUsd}
-        ccipFeeUsd={selectedChain !== "base" ? 2.5 : undefined}
+        ccipFeeUsd={selectedChain !== "base" ? ccipFeeUsd : undefined}
+        isFeeLoading={selectedChain !== "base" && isFeeLoading}
       />
+
+      {/* Wrong Chain Warning */}
+      {isWrongChain && (
+        <div className="flex items-center gap-2 rounded-xl border border-yellow-500/30 bg-yellow-500/10 px-4 py-3 text-sm text-yellow-400">
+          <AlertTriangle className="h-4 w-4 shrink-0" />
+          <span>
+            Please switch to {SUPPORTED_CHAINS[selectedChain]?.name} to continue
+          </span>
+        </div>
+      )}
 
       {/* Submit */}
       {!isConnected ? (
         <div className="flex justify-center">
           <ConnectButton />
         </div>
+      ) : isWrongChain ? (
+        <button
+          onClick={handleSwitchChain}
+          className="flex w-full items-center justify-center gap-2 rounded-xl bg-yellow-600 py-4 text-base font-semibold text-white transition-all hover:bg-yellow-500"
+        >
+          Switch to {SUPPORTED_CHAINS[selectedChain]?.name}
+        </button>
       ) : (
         <button
           onClick={handleSubmit}
