@@ -1,10 +1,12 @@
 import { NextResponse } from "next/server";
 import { createClient } from "@supabase/supabase-js";
 
-const supabase = createClient(
-  process.env.NEXT_PUBLIC_SUPABASE_URL!,
-  process.env.SUPABASE_SERVICE_ROLE_KEY!
-);
+function getSupabase() {
+  return createClient(
+    process.env.NEXT_PUBLIC_SUPABASE_URL!,
+    process.env.SUPABASE_SERVICE_ROLE_KEY!
+  );
+}
 
 type DonateRequestBody = {
   streamer_address: string;
@@ -22,6 +24,7 @@ type DonateRequestBody = {
 
 export async function POST(request: Request) {
   try {
+    const supabase = getSupabase();
     const body = (await request.json()) as DonateRequestBody;
 
     // Validate required fields

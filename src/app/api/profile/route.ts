@@ -1,10 +1,12 @@
 import { NextResponse } from "next/server";
 import { createClient } from "@supabase/supabase-js";
 
-const supabase = createClient(
-  process.env.NEXT_PUBLIC_SUPABASE_URL!,
-  process.env.SUPABASE_SERVICE_ROLE_KEY!
-);
+function getSupabase() {
+  return createClient(
+    process.env.NEXT_PUBLIC_SUPABASE_URL!,
+    process.env.SUPABASE_SERVICE_ROLE_KEY!
+  );
+}
 
 const USERNAME_REGEX = /^[a-z0-9_]{3,30}$/;
 
@@ -13,6 +15,7 @@ const USERNAME_REGEX = /^[a-z0-9_]{3,30}$/;
 // ────────────────────────────────────────────────────────────────
 export async function GET(request: Request) {
   try {
+    const supabase = getSupabase();
     const { searchParams } = new URL(request.url);
     const walletAddress = searchParams.get("wallet_address");
 
@@ -67,6 +70,7 @@ type CreateProfileBody = {
 
 export async function POST(request: Request) {
   try {
+    const supabase = getSupabase();
     const body = (await request.json()) as CreateProfileBody;
 
     // Validate required fields
