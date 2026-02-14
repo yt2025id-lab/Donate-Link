@@ -25,38 +25,39 @@ export function Hero() {
             initial={{ opacity: 0, scale: 0.9 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ delay: 0.1, duration: 0.4 }}
-            className="mb-6 inline-flex items-center gap-2 rounded-full border border-chainlink/30 bg-chainlink/10 px-4 py-1.5 text-sm text-chainlink-light"
+            className="mb-8 inline-flex items-center gap-2 border-2 border-black bg-white px-5 py-2 text-sm font-bold text-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]"
           >
-            <Zap className="h-3.5 w-3.5" />
+            <Zap className="h-4 w-4" />
             Powered by Chainlink CRE
           </motion.div>
 
           {/* Headline */}
-          <h1 className="mb-6 text-4xl font-bold tracking-tight text-text-primary sm:text-6xl lg:text-7xl">
+          <h1 className="mb-8 text-4xl font-extrabold tracking-tight text-black sm:text-6xl lg:text-7xl">
             Support Creators{" "}
-            <span className="bg-gradient-to-r from-chainlink to-accent bg-clip-text text-transparent">
+            <span className="bg-chainlink text-white px-2 decoration-clone box-decoration-clone">
               Across Any Chain
             </span>
           </h1>
 
           {/* Subtitle */}
-          <p className="mb-10 text-lg text-text-secondary sm:text-xl">
-            Send crypto donations to your favorite streamers from any blockchain.
-            Real-time alerts, cross-chain support, and full transparency.
+          <p className="mb-12 text-lg font-medium text-black sm:text-xl max-w-2xl mx-auto">
+            Send crypto donations to your favorite streamers from any
+            blockchain. Real-time alerts, cross-chain support, and full
+            transparency.
           </p>
 
           {/* CTA Buttons */}
-          <div className="flex flex-col items-center justify-center gap-4 sm:flex-row">
+          <div className="flex flex-col items-center justify-center gap-5 sm:flex-row">
             <Link
               href="/dashboard"
-              className="inline-flex items-center gap-2 rounded-xl bg-chainlink px-8 py-3.5 text-base font-semibold text-white transition-all hover:bg-chainlink-light hover:shadow-lg hover:shadow-chainlink/25"
+              className="inline-flex items-center gap-2 border-2 border-black bg-chainlink px-8 py-4 text-lg font-bold text-white shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] transition-all hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] active:translate-x-[4px] active:translate-y-[4px] active:shadow-none"
             >
               Start Receiving Donations
-              <ArrowRight className="h-4 w-4" />
+              <ArrowRight className="h-5 w-5" />
             </Link>
             <Link
               href="/leaderboard"
-              className="inline-flex items-center gap-2 rounded-xl border border-border-light bg-surface-elevated px-8 py-3.5 text-base font-semibold text-text-primary transition-all hover:bg-surface-hover"
+              className="inline-flex items-center gap-2 border-2 border-black bg-white px-8 py-4 text-lg font-bold text-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] transition-all hover:bg-white hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] active:translate-x-[4px] active:translate-y-[4px] active:shadow-none"
             >
               View Leaderboard
             </Link>
@@ -77,9 +78,9 @@ export function Hero() {
           ].map((item) => (
             <div
               key={item.text}
-              className="flex items-center gap-2 rounded-full border border-border bg-surface-elevated/50 px-4 py-2 text-sm text-text-secondary"
+              className="flex items-center gap-2 border-2 border-black bg-white px-5 py-2.5 text-sm font-bold text-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]"
             >
-              <item.icon className="h-4 w-4 text-chainlink" />
+              <item.icon className="h-5 w-5 text-black" />
               {item.text}
             </div>
           ))}

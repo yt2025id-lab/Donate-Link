@@ -1,18 +1,18 @@
-'use client';
+"use client";
 
-import { useState } from 'react';
-import { useAccount } from 'wagmi';
-import { motion } from 'framer-motion';
-import { Wallet, UserPlus, LayoutDashboard } from 'lucide-react';
-import { useProfile } from '@/hooks/useProfile';
-import { Input } from '@/components/ui/Input';
-import { Button } from '@/components/ui/Button';
-import { Skeleton } from '@/components/ui/Skeleton';
-import { StatsCards } from '@/components/dashboard/StatsCards';
-import { DonationList } from '@/components/dashboard/DonationList';
-import { WithdrawCard } from '@/components/dashboard/WithdrawCard';
-import { ShareLinkCard } from '@/components/dashboard/ShareLinkCard';
-import type { Address } from 'viem';
+import { useState } from "react";
+import { useAccount } from "wagmi";
+import { motion } from "framer-motion";
+import { Wallet, UserPlus, LayoutDashboard } from "lucide-react";
+import { useProfile } from "@/hooks/useProfile";
+import { Input } from "@/components/ui/Input";
+import { Button } from "@/components/ui/Button";
+import { Skeleton } from "@/components/ui/Skeleton";
+import { StatsCards } from "@/components/dashboard/StatsCards";
+import { DonationList } from "@/components/dashboard/DonationList";
+import { WithdrawCard } from "@/components/dashboard/WithdrawCard";
+import { ShareLinkCard } from "@/components/dashboard/ShareLinkCard";
+import type { Address } from "viem";
 
 /* -------------------------------------------------------------------------- */
 /*  Profile Setup Form                                                         */
@@ -25,26 +25,26 @@ function ProfileSetup({
   onCreate: (username: string, displayName: string) => void;
   isCreating: boolean;
 }) {
-  const [username, setUsername] = useState('');
-  const [displayName, setDisplayName] = useState('');
-  const [validationError, setValidationError] = useState('');
+  const [username, setUsername] = useState("");
+  const [displayName, setDisplayName] = useState("");
+  const [validationError, setValidationError] = useState("");
 
   function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
 
     const trimmedUsername = username.trim().toLowerCase();
     if (!trimmedUsername) {
-      setValidationError('Username is required');
+      setValidationError("Username is required");
       return;
     }
     if (!/^[a-z0-9_]{3,20}$/.test(trimmedUsername)) {
       setValidationError(
-        'Username must be 3-20 characters: lowercase letters, numbers, or underscores',
+        "Username must be 3-20 characters: lowercase letters, numbers, or underscores",
       );
       return;
     }
 
-    setValidationError('');
+    setValidationError("");
     onCreate(trimmedUsername, displayName.trim() || trimmedUsername);
   }
 
@@ -55,15 +55,15 @@ function ProfileSetup({
       transition={{ duration: 0.5 }}
       className="mx-auto max-w-md"
     >
-      <div className="bg-surface-card border border-border rounded-2xl p-6 sm:p-8">
+      <div className="bg-white border-2 border-black p-6 sm:p-8 shadow-[8px_8px_0px_0px_rgba(0,0,0,1)]">
         <div className="mb-6 flex flex-col items-center text-center">
-          <div className="mb-4 flex h-14 w-14 items-center justify-center rounded-2xl bg-chainlink/10 text-chainlink">
-            <UserPlus className="h-6 w-6" />
+          <div className="mb-4 flex h-16 w-16 items-center justify-center border-2 border-black bg-chainlink text-white shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]">
+            <UserPlus className="h-8 w-8" />
           </div>
-          <h2 className="text-xl font-bold text-text-primary">
+          <h2 className="text-2xl font-black text-black uppercase tracking-tight">
             Create Your Profile
           </h2>
-          <p className="mt-1.5 text-sm text-text-secondary">
+          <p className="mt-2 text-sm font-medium text-gray-600">
             Set up your streamer profile to start receiving donations.
           </p>
         </div>
@@ -75,7 +75,7 @@ function ProfileSetup({
             value={username}
             onChange={(e) => {
               setUsername(e.target.value);
-              setValidationError('');
+              setValidationError("");
             }}
             error={validationError}
           />
@@ -89,7 +89,7 @@ function ProfileSetup({
             type="submit"
             variant="primary"
             size="lg"
-            className="w-full mt-2"
+            className="w-full mt-4"
             isLoading={isCreating}
           >
             Create Profile
@@ -112,14 +112,14 @@ function ConnectWalletPrompt() {
       transition={{ duration: 0.5 }}
       className="mx-auto max-w-md"
     >
-      <div className="bg-surface-card border border-border rounded-2xl p-8 text-center">
-        <div className="mb-4 mx-auto flex h-14 w-14 items-center justify-center rounded-2xl bg-chainlink/10 text-chainlink">
-          <Wallet className="h-6 w-6" />
+      <div className="bg-white border-2 border-black p-8 text-center shadow-[8px_8px_0px_0px_rgba(0,0,0,1)]">
+        <div className="mb-6 mx-auto flex h-16 w-16 items-center justify-center border-2 border-black bg-chainlink text-white shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]">
+          <Wallet className="h-8 w-8" />
         </div>
-        <h2 className="text-xl font-bold text-text-primary">
+        <h2 className="text-2xl font-black text-black uppercase tracking-tight">
           Connect Your Wallet
         </h2>
-        <p className="mt-2 text-sm text-text-secondary">
+        <p className="mt-3 text-base font-medium text-gray-600">
           Please connect your wallet using the button in the navigation bar to
           access your dashboard.
         </p>
@@ -132,7 +132,11 @@ function ConnectWalletPrompt() {
 /*  Dashboard Content                                                          */
 /* -------------------------------------------------------------------------- */
 
-function DashboardContent({ address, username, walletAddress }: {
+function DashboardContent({
+  address,
+  username,
+  walletAddress,
+}: {
   address: Address;
   username: string;
   walletAddress: string;
@@ -167,16 +171,16 @@ export default function DashboardPage() {
   } = useProfile(address);
 
   const [isCreating, setIsCreating] = useState(false);
-  const [createError, setCreateError] = useState('');
+  const [createError, setCreateError] = useState("");
 
   async function handleCreate(username: string, displayName: string) {
     try {
       setIsCreating(true);
-      setCreateError('');
+      setCreateError("");
       await createProfile({ username, display_name: displayName });
     } catch (err) {
       setCreateError(
-        err instanceof Error ? err.message : 'Failed to create profile',
+        err instanceof Error ? err.message : "Failed to create profile",
       );
     } finally {
       setIsCreating(false);
@@ -190,15 +194,17 @@ export default function DashboardPage() {
         initial={{ opacity: 0, y: 16 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.4 }}
-        className="mb-8"
+        className="mb-8 p-6 border-2 border-black bg-white shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]"
       >
-        <div className="flex items-center gap-3 mb-1">
-          <LayoutDashboard className="h-6 w-6 text-chainlink" />
-          <h1 className="text-2xl font-bold text-text-primary sm:text-3xl">
+        <div className="flex items-center gap-3 mb-2">
+          <div className="flex h-10 w-10 items-center justify-center border-2 border-black bg-chainlink text-white">
+            <LayoutDashboard className="h-6 w-6" />
+          </div>
+          <h1 className="text-3xl font-black text-black uppercase tracking-tighter sm:text-4xl">
             Dashboard
           </h1>
         </div>
-        <p className="text-sm text-text-secondary ml-9">
+        <p className="text-base font-bold text-gray-500 ml-[52px]">
           Manage your donations, withdraw funds, and share your links.
         </p>
       </motion.div>
@@ -219,7 +225,9 @@ export default function DashboardPage() {
         <>
           <ProfileSetup onCreate={handleCreate} isCreating={isCreating} />
           {createError && (
-            <p className="mt-4 text-center text-sm text-danger">{createError}</p>
+            <p className="mt-4 text-center text-sm text-danger">
+              {createError}
+            </p>
           )}
         </>
       ) : (

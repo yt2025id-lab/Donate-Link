@@ -1,25 +1,29 @@
 @import "tailwindcss";
 
 @theme inline {
-  --color-chainlink: #375BD2;
-  --color-chainlink-light: #4A6FE5;
-  --color-chainlink-dark: #1A2332;
-  --color-accent: #2DCC70;
-  --color-accent-light: #3DDE80;
-  --color-accent-purple: #8B5CF6;
-  --color-surface: #0B1120;
-  --color-surface-elevated: #131B2E;
-  --color-surface-card: #1A2340;
-  --color-surface-hover: #243044;
-  --color-border: #1E2D45;
-  --color-border-light: #2A3A55;
-  --color-text-primary: #F1F5F9;
-  --color-text-secondary: #94A3B8;
-  --color-text-muted: #64748B;
-  --color-danger: #EF4444;
-  --color-warning: #F59E0B;
+  --color-chainlink: #375bd2;
+  --color-chainlink-light: #4a6fe5;
+  --color-chainlink-dark: #1a2332;
+  --color-accent: #2dcc70;
+  --color-accent-light: #3dde80;
+  --color-accent-purple: #8b5cf6;
+  --color-surface: #ffffff; /* Pure white background */
+  --color-surface-elevated: #ffffff;
+  --color-surface-card: #ffffff;
+  --color-surface-hover: #f1f5f9;
+  --color-border: #000000; /* Strict black border */
+  --color-border-light: #333333;
+  --color-text-primary: #000000;
+  --color-text-secondary: #334155;
+  --color-text-muted: #64748b;
+  --color-danger: #ef4444;
+  --color-warning: #f59e0b;
 
-  --font-sans: 'Inter', ui-sans-serif, system-ui, -apple-system, sans-serif;
+  --font-sans: "Inter", ui-sans-serif, system-ui, -apple-system, sans-serif;
+
+  --shadow-neo: 4px 4px 0px 0px #000000;
+  --shadow-neo-sm: 2px 2px 0px 0px #000000;
+  --shadow-neo-lg: 6px 6px 0px 0px #000000;
 
   --animate-fade-in: fade-in 0.5s ease-out;
   --animate-slide-up: slide-up 0.4s ease-out;
@@ -30,33 +34,65 @@
 }
 
 @keyframes fade-in {
-  from { opacity: 0; }
-  to { opacity: 1; }
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
 }
 
 @keyframes slide-up {
-  from { opacity: 0; transform: translateY(20px); }
-  to { opacity: 1; transform: translateY(0); }
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 @keyframes slide-down {
-  from { opacity: 0; transform: translateY(-20px); }
-  to { opacity: 1; transform: translateY(0); }
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 @keyframes scale-in {
-  from { opacity: 0; transform: scale(0.9); }
-  to { opacity: 1; transform: scale(1); }
+  from {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
 }
 
 @keyframes pulse-glow {
-  0%, 100% { box-shadow: 0 0 20px rgba(55, 91, 210, 0.2); }
-  50% { box-shadow: 0 0 40px rgba(55, 91, 210, 0.5); }
+  0%,
+  100% {
+    box-shadow: 4px 4px 0px 0px rgba(55, 91, 210, 0.2);
+  }
+  50% {
+    box-shadow: 6px 6px 0px 0px rgba(55, 91, 210, 0.5);
+  }
 }
 
 @keyframes float {
-  0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-10px); }
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-5px);
+  }
 }
 
 * {
@@ -70,7 +106,36 @@ body {
   font-family: var(--font-sans);
 }
 
+/* Neo-Brutalist Utils */
+.neo-border {
+  border: 2px solid #000;
+}
+
+.neo-shadow {
+  box-shadow: 4px 4px 0px 0px #000;
+}
+
+.neo-shadow-sm {
+  box-shadow: 2px 2px 0px 0px #000;
+}
+
+.neo-shadow-lg {
+  box-shadow: 6px 6px 0px 0px #000;
+}
+
+.neo-shadow-hover:hover {
+  transform: translate(-2px, -2px);
+  box-shadow: 6px 6px 0px 0px #000;
+}
+
+.neo-shadow-active:active {
+  transform: translate(2px, 2px);
+  box-shadow: 2px 2px 0px 0px #000;
+}
+
 /* RainbowKit modal dark mode fix */
 [data-rk] {
   --rk-colors-modalBackground: var(--color-surface-elevated);
+  --rk-borders-modalBorder: 2px solid #000;
+  --rk-shadows-modalShadow: 4px 4px 0px 0px #000;
 }

@@ -9,7 +9,10 @@ type AmountSelectorProps = {
   onAmountChange: (amount: string) => void;
 };
 
-export function AmountSelector({ amount, onAmountChange }: AmountSelectorProps) {
+export function AmountSelector({
+  amount,
+  onAmountChange,
+}: AmountSelectorProps) {
   return (
     <div>
       <label className="mb-2 block text-sm font-medium text-text-secondary">
@@ -26,20 +29,20 @@ export function AmountSelector({ amount, onAmountChange }: AmountSelectorProps) 
           value={amount}
           onChange={(e) => onAmountChange(e.target.value)}
           placeholder="0.00"
-          className="w-full rounded-xl border border-border bg-surface-elevated py-4 pl-10 pr-4 text-2xl font-bold text-text-primary placeholder:text-text-muted focus:border-chainlink focus:outline-none focus:ring-1 focus:ring-chainlink"
+          className="w-full border-2 border-black bg-white py-4 pl-10 pr-4 text-3xl font-black text-black placeholder:text-gray-300 focus:outline-none focus:shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] transition-all"
         />
       </div>
-      <div className="mt-3 flex flex-wrap gap-2">
+      <div className="mt-4 flex flex-wrap gap-3">
         {QUICK_AMOUNTS.map((qa) => (
           <button
             key={qa}
             type="button"
             onClick={() => onAmountChange(qa.toString())}
             className={cn(
-              "rounded-lg border px-3 py-1.5 text-sm font-medium transition-all",
+              "border-2 px-4 py-2 text-sm font-bold transition-all shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] hover:translate-y-[-1px] hover:translate-x-[-1px] hover:shadow-[3px_3px_0px_0px_rgba(0,0,0,1)] active:translate-y-[1px] active:translate-x-[1px] active:shadow-none",
               amount === qa.toString()
-                ? "border-chainlink bg-chainlink/10 text-chainlink"
-                : "border-border bg-surface-elevated text-text-secondary hover:border-border-light hover:text-text-primary"
+                ? "border-black bg-chainlink text-white"
+                : "border-black bg-white text-black hover:bg-white",
             )}
           >
             ${qa}

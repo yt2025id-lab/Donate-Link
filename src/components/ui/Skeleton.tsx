@@ -8,8 +8,8 @@ function Skeleton({ className }: SkeletonProps) {
   return (
     <div
       className={cn(
-        "animate-pulse rounded-lg bg-surface-elevated",
-        className
+        "animate-pulse bg-surface-elevated border-2 border-black/10",
+        className,
       )}
     />
   );

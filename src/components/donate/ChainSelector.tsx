@@ -1,7 +1,11 @@
 "use client";
 
 import { cn } from "@/lib/utils";
-import { CHAIN_DISPLAY_NAMES, CHAIN_COLORS, type SupportedChainKey } from "@/lib/chains";
+import {
+  CHAIN_DISPLAY_NAMES,
+  CHAIN_COLORS,
+  type SupportedChainKey,
+} from "@/lib/chains";
 
 type ChainSelectorProps = {
   selectedChain: SupportedChainKey;
@@ -15,7 +19,10 @@ const chains: { key: SupportedChainKey; badge?: string }[] = [
   { key: "optimism" },
 ];
 
-export function ChainSelector({ selectedChain, onChainChange }: ChainSelectorProps) {
+export function ChainSelector({
+  selectedChain,
+  onChainChange,
+}: ChainSelectorProps) {
   return (
     <div>
       <label className="mb-2 block text-sm font-medium text-text-secondary">
@@ -28,21 +35,21 @@ export function ChainSelector({ selectedChain, onChainChange }: ChainSelectorPro
             type="button"
             onClick={() => onChainChange(chain.key)}
             className={cn(
-              "relative flex flex-col items-center gap-1 rounded-xl border p-3 transition-all",
+              "relative flex flex-col items-center gap-2 border-2 p-3 transition-all",
               selectedChain === chain.key
-                ? "border-chainlink bg-chainlink/10"
-                : "border-border bg-surface-elevated hover:border-border-light"
+                ? "border-black bg-white shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] -translate-y-1 -translate-x-1"
+                : "border-black bg-white hover:bg-white hover:shadow-[2px_2px_0px_0px_rgba(0,0,0,1)]",
             )}
           >
             <div
-              className="h-3 w-3 rounded-full"
+              className="h-4 w-4 rounded-full border border-black"
               style={{ backgroundColor: CHAIN_COLORS[chain.key] }}
             />
-            <span className="text-xs font-medium text-text-primary">
+            <span className="text-xs font-bold text-black uppercase">
               {CHAIN_DISPLAY_NAMES[chain.key]}
             </span>
             {chain.badge && (
-              <span className="absolute -right-1 -top-1 rounded-full bg-accent px-1.5 py-0.5 text-[10px] font-bold text-white">
+              <span className="absolute -right-2 -top-2 border-2 border-black bg-accent px-2 py-0.5 text-[10px] font-bold text-black shadow-[2px_2px_0px_0px_rgba(0,0,0,1)]">
                 {chain.badge}
               </span>
             )}

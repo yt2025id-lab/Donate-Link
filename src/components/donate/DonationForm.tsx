@@ -13,7 +13,11 @@ import { TokenSelector } from "./TokenSelector";
 import { ChainSelector } from "./ChainSelector";
 import { FeePreview } from "./FeePreview";
 import { DonationSuccess } from "./DonationSuccess";
-import { useDonateETH, useDonateToken, useCrossChainDonate } from "@/hooks/useDonate";
+import {
+  useDonateETH,
+  useDonateToken,
+  useCrossChainDonate,
+} from "@/hooks/useDonate";
 import { usePriceFeed } from "@/hooks/usePriceFeed";
 import { useCCIPFeeEstimate } from "@/hooks/useCCIPFee";
 import { TOKENS } from "@/lib/contracts";
@@ -24,7 +28,10 @@ type DonationFormProps = {
   streamerName: string;
 };
 
-export function DonationForm({ streamerAddress, streamerName }: DonationFormProps) {
+export function DonationForm({
+  streamerAddress,
+  streamerName,
+}: DonationFormProps) {
   const { isConnected, address, chainId } = useAccount();
   const { switchChain } = useSwitchChain();
   const [donorName, setDonorName] = useState("");
@@ -40,8 +47,12 @@ export function DonationForm({ streamerAddress, streamerName }: DonationFormProp
   } | null>(null);
 
   const token = TOKENS[selectedToken];
-  const { price: ethPrice } = usePriceFeed(TOKENS.ETH.priceFeedAddress as Address);
-  const { price: linkPrice } = usePriceFeed(TOKENS.LINK.priceFeedAddress as Address);
+  const { price: ethPrice } = usePriceFeed(
+    TOKENS.ETH.priceFeedAddress as Address,
+  );
+  const { price: linkPrice } = usePriceFeed(
+    TOKENS.LINK.priceFeedAddress as Address,
+  );
 
   const ethDonate = useDonateETH();
   const tokenDonate = useDonateToken();
@@ -53,8 +64,10 @@ export function DonationForm({ streamerAddress, streamerName }: DonationFormProp
   // Calculate token amount from USD
   const getTokenAmount = (): number => {
     if (selectedToken === "USDC") return amountUsd;
-    if (selectedToken === "ETH" && ethPrice && ethPrice > 0) return amountUsd / ethPrice;
-    if (selectedToken === "LINK" && linkPrice && linkPrice > 0) return amountUsd / linkPrice;
+    if (selectedToken === "ETH" && ethPrice && ethPrice > 0)
+      return amountUsd / ethPrice;
+    if (selectedToken === "LINK" && linkPrice && linkPrice > 0)
+      return amountUsd / linkPrice;
     return 0;
   };
 
@@ -80,15 +93,21 @@ export function DonationForm({ streamerAddress, streamerName }: DonationFormProp
 
   // Handle active donation states
   const isPending =
-    ethDonate.isWritePending || tokenDonate.isWritePending || crossChainDonate.isWritePending;
+    ethDonate.isWritePending ||
+    tokenDonate.isWritePending ||
+    crossChainDonate.isWritePending;
   const isConfirming =
-    ethDonate.isConfirming || tokenDonate.isConfirming || crossChainDonate.isConfirming;
+    ethDonate.isConfirming ||
+    tokenDonate.isConfirming ||
+    crossChainDonate.isConfirming;
 
   // Watch for success
   useEffect(() => {
     const hash = ethDonate.hash || tokenDonate.hash || crossChainDonate.hash;
     const isSuccess =
-      ethDonate.isConfirmed || tokenDonate.isConfirmed || crossChainDonate.isConfirmed;
+      ethDonate.isConfirmed ||
+      tokenDonate.isConfirmed ||
+      crossChainDonate.isConfirmed;
 
     if (isSuccess && hash) {
       setSuccessData({ txHash: hash, amountUsd, chainId: expectedChainId });
@@ -111,16 +130,24 @@ export function DonationForm({ streamerAddress, streamerName }: DonationFormProp
           tx_hash: hash,
         }),
       }).catch((err) => {
-        console.warn("Failed to record donation in DB (CRE workflow will retry):", err);
+        console.warn(
+          "Failed to record donation in DB (CRE workflow will retry):",
+          err,
+        );
       });
 
       toast.success("Donation sent successfully!");
     }
-  }, [ethDonate.isConfirmed, tokenDonate.isConfirmed, crossChainDonate.isConfirmed]);
+  }, [
+    ethDonate.isConfirmed,
+    tokenDonate.isConfirmed,
+    crossChainDonate.isConfirmed,
+  ]);
 
   // Watch for errors
   useEffect(() => {
-    const error = ethDonate.error || tokenDonate.error || crossChainDonate.error;
+    const error =
+      ethDonate.error || tokenDonate.error || crossChainDonate.error;
     if (error) {
       const msg = error.message?.includes("User rejected")
         ? "Transaction rejected by user"
@@ -146,7 +173,7 @@ export function DonationForm({ streamerAddress, streamerName }: DonationFormProp
             tokenAmount.toString(),
             token.decimals,
             name,
-            message
+            message,
           );
         }
       } else {
@@ -163,7 +190,7 @@ export function DonationForm({ streamerAddress, streamerName }: DonationFormProp
           token.decimals,
           name,
           message,
-          fee
+          fee,
         );
       }
     } catch (err) {
@@ -199,11 +226,11 @@ export function DonationForm({ streamerAddress, streamerName }: DonationFormProp
       initial={{ opacity: 0, y: 10 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ delay: 0.1 }}
-      className="space-y-5 rounded-2xl border border-border bg-surface-card p-6"
+      className="space-y-6 border-2 border-black bg-white p-6 shadow-[8px_8px_0px_0px_rgba(0,0,0,1)]"
     >
       {/* Donor Name */}
       <div>
-        <label className="mb-2 block text-sm font-medium text-text-secondary">
+        <label className="mb-2 block text-sm font-bold text-black uppercase tracking-wide">
           Your Name
         </label>
         <input
@@ -212,13 +239,13 @@ export function DonationForm({ streamerAddress, streamerName }: DonationFormProp
           onChange={(e) => setDonorName(e.target.value)}
           placeholder="Anonymous"
           maxLength={50}
-          className="w-full rounded-xl border border-border bg-surface-elevated px-4 py-3 text-text-primary placeholder:text-text-muted focus:border-chainlink focus:outline-none focus:ring-1 focus:ring-chainlink"
+          className="w-full border-2 border-black bg-white px-4 py-3 text-black font-medium placeholder:text-gray-400 focus:outline-none focus:shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] transition-all"
         />
       </div>
 
       {/* Message */}
       <div>
-        <label className="mb-2 block text-sm font-medium text-text-secondary">
+        <label className="mb-2 block text-sm font-bold text-black uppercase tracking-wide">
           Message
         </label>
         <textarea
@@ -227,9 +254,9 @@ export function DonationForm({ streamerAddress, streamerName }: DonationFormProp
           placeholder={`Say something nice to ${streamerName}...`}
           maxLength={200}
           rows={3}
-          className="w-full resize-none rounded-xl border border-border bg-surface-elevated px-4 py-3 text-text-primary placeholder:text-text-muted focus:border-chainlink focus:outline-none focus:ring-1 focus:ring-chainlink"
+          className="w-full resize-none border-2 border-black bg-white px-4 py-3 text-black font-medium placeholder:text-gray-400 focus:outline-none focus:shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] transition-all"
         />
-        <p className="mt-1 text-right text-xs text-text-muted">
+        <p className="mt-1 text-right text-xs font-bold text-gray-500">
           {message.length}/200
         </p>
       </div>
@@ -238,10 +265,16 @@ export function DonationForm({ streamerAddress, streamerName }: DonationFormProp
       <AmountSelector amount={amount} onAmountChange={setAmount} />
 
       {/* Token Selection */}
-      <TokenSelector selectedToken={selectedToken} onTokenChange={setSelectedToken} />
+      <TokenSelector
+        selectedToken={selectedToken}
+        onTokenChange={setSelectedToken}
+      />
 
       {/* Chain Selection */}
-      <ChainSelector selectedChain={selectedChain} onChainChange={setSelectedChain} />
+      <ChainSelector
+        selectedChain={selectedChain}
+        onChainChange={setSelectedChain}
+      />
 
       {/* Fee Preview */}
       <FeePreview
@@ -266,13 +299,13 @@ export function DonationForm({ streamerAddress, streamerName }: DonationFormProp
 
       {/* Submit */}
       {!isConnected ? (
-        <div className="flex justify-center">
+        <div className="flex justify-center border-2 border-black p-4 bg-white shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]">
           <ConnectButton />
         </div>
       ) : isWrongChain ? (
         <button
           onClick={handleSwitchChain}
-          className="flex w-full items-center justify-center gap-2 rounded-xl bg-yellow-600 py-4 text-base font-semibold text-white transition-all hover:bg-yellow-500"
+          className="flex w-full items-center justify-center gap-2 border-2 border-black bg-yellow-400 py-4 text-base font-bold text-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] transition-all hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] active:translate-x-[4px] active:translate-y-[4px] active:shadow-none"
         >
           Switch to {SUPPORTED_CHAINS[selectedChain]?.name}
         </button>
@@ -280,7 +313,7 @@ export function DonationForm({ streamerAddress, streamerName }: DonationFormProp
         <button
           onClick={handleSubmit}
           disabled={isPending || isConfirming || amountUsd <= 0}
-          className="flex w-full items-center justify-center gap-2 rounded-xl bg-chainlink py-4 text-base font-semibold text-white transition-all hover:bg-chainlink-light hover:shadow-lg hover:shadow-chainlink/25 disabled:cursor-not-allowed disabled:opacity-50"
+          className="flex w-full items-center justify-center gap-2 border-2 border-black bg-chainlink py-4 text-lg font-black text-white shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] transition-all hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] active:translate-x-[4px] active:translate-y-[4px] active:shadow-none disabled:cursor-not-allowed disabled:opacity-50 disabled:shadow-none disabled:translate-x-0 disabled:translate-y-0"
         >
           {isPending ? (
             "Confirm in wallet..."
@@ -288,7 +321,7 @@ export function DonationForm({ streamerAddress, streamerName }: DonationFormProp
             "Confirming..."
           ) : (
             <>
-              <Send className="h-4 w-4" />
+              <Send className="h-5 w-5" />
               Send {amountUsd > 0 ? `$${amountUsd.toFixed(2)}` : "Donation"}
             </>
           )}

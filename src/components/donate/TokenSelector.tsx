@@ -27,14 +27,14 @@ function TokenOption({
       type="button"
       onClick={onClick}
       className={cn(
-        "flex flex-1 flex-col items-center gap-1 rounded-xl border p-3 transition-all",
+        "flex flex-1 flex-col items-center gap-1 border-2 p-3 transition-all",
         isSelected
-          ? "border-chainlink bg-chainlink/10 shadow-sm shadow-chainlink/10"
-          : "border-border bg-surface-elevated hover:border-border-light"
+          ? "border-black bg-white shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] -translate-y-1 -translate-x-1"
+          : "border-black bg-white hover:bg-white hover:shadow-[2px_2px_0px_0px_rgba(0,0,0,1)]",
       )}
     >
-      <span className="text-sm font-bold text-text-primary">{token.symbol}</span>
-      <span className="text-xs text-text-muted">
+      <span className="text-sm font-black text-black">{token.symbol}</span>
+      <span className="text-xs font-bold text-gray-500">
         {token.symbol === "USDC"
           ? "$1.00"
           : isLoading
@@ -45,7 +45,10 @@ function TokenOption({
   );
 }
 
-export function TokenSelector({ selectedToken, onTokenChange }: TokenSelectorProps) {
+export function TokenSelector({
+  selectedToken,
+  onTokenChange,
+}: TokenSelectorProps) {
   return (
     <div>
       <label className="mb-2 block text-sm font-medium text-text-secondary">

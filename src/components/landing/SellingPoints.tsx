@@ -59,7 +59,8 @@ export function SellingPoints() {
             Why DonateLink?
           </h2>
           <p className="mx-auto max-w-2xl text-text-secondary">
-            The easiest way to support content creators with crypto, across any blockchain.
+            The easiest way to support content creators with crypto, across any
+            blockchain.
           </p>
         </div>
 
@@ -74,17 +75,17 @@ export function SellingPoints() {
             <motion.div
               key={feature.title}
               variants={itemVariants}
-              className="group rounded-2xl border border-border bg-surface-card p-6 transition-all hover:border-border-light hover:shadow-lg hover:shadow-chainlink/5"
+              className="group border-2 border-black bg-white p-8 shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] transition-all hover:-translate-y-1 hover:-translate-x-1 hover:shadow-[12px_12px_0px_0px_rgba(0,0,0,1)]"
             >
               <div
-                className={`mb-4 inline-flex h-12 w-12 items-center justify-center rounded-xl ${feature.bg}`}
+                className={`mb-6 inline-flex h-14 w-14 items-center justify-center border-2 border-black ${feature.bg} shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]`}
               >
-                <feature.icon className={`h-6 w-6 ${feature.color}`} />
+                <feature.icon className={`h-7 w-7 text-black`} />
               </div>
-              <h3 className="mb-2 text-lg font-semibold text-text-primary">
+              <h3 className="mb-3 text-xl font-bold text-black">
                 {feature.title}
               </h3>
-              <p className="text-sm leading-relaxed text-text-secondary">
+              <p className="text-base leading-relaxed text-black font-medium">
                 {feature.description}
               </p>
             </motion.div>

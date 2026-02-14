@@ -8,19 +8,22 @@ const steps = [
     icon: Wallet,
     step: "01",
     title: "Connect Wallet",
-    description: "Connect with MetaMask, Coinbase Wallet, or any WalletConnect-compatible wallet.",
+    description:
+      "Connect with MetaMask, Coinbase Wallet, or any WalletConnect-compatible wallet.",
   },
   {
     icon: Search,
     step: "02",
     title: "Find a Creator",
-    description: "Search for your favorite streamer or use their unique donation link.",
+    description:
+      "Search for your favorite streamer or use their unique donation link.",
   },
   {
     icon: Send,
     step: "03",
     title: "Send Donation",
-    description: "Choose your token, enter an amount in USD, add a message, and send!",
+    description:
+      "Choose your token, enter an amount in USD, add a message, and send!",
   },
 ];
 
@@ -50,16 +53,18 @@ export function HowItWorks() {
               transition={{ delay: i * 0.15, duration: 0.5 }}
               className="relative text-center"
             >
-              <div className="relative mx-auto mb-6 flex h-16 w-16 items-center justify-center rounded-2xl border border-border bg-surface-card">
-                <step.icon className="h-7 w-7 text-chainlink" />
-                <span className="absolute -right-2 -top-2 flex h-6 w-6 items-center justify-center rounded-full bg-chainlink text-xs font-bold text-white">
+              <div className="relative mx-auto mb-8 flex h-20 w-20 items-center justify-center border-2 border-black bg-white shadow-[6px_6px_0px_0px_rgba(0,0,0,1)]">
+                <step.icon className="h-8 w-8 text-black" />
+                <span className="absolute -right-3 -top-3 flex h-8 w-8 items-center justify-center border-2 border-black bg-chainlink text-sm font-bold text-white shadow-[2px_2px_0px_0px_rgba(0,0,0,1)]">
                   {step.step}
                 </span>
               </div>
-              <h3 className="mb-2 text-lg font-semibold text-text-primary">
+              <h3 className="mb-3 text-xl font-bold text-black">
                 {step.title}
               </h3>
-              <p className="text-sm text-text-secondary">{step.description}</p>
+              <p className="text-base text-black font-medium">
+                {step.description}
+              </p>
             </motion.div>
           ))}
         </div>

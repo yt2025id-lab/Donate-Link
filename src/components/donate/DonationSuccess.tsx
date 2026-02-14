@@ -32,47 +32,52 @@ export function DonationSuccess({
     <motion.div
       initial={{ opacity: 0, scale: 0.9 }}
       animate={{ opacity: 1, scale: 1 }}
-      className="rounded-2xl border border-accent/30 bg-surface-card p-8 text-center"
+      className="border-2 border-black bg-white p-8 text-center shadow-[8px_8px_0px_0px_rgba(0,0,0,1)]"
     >
       <motion.div
         initial={{ scale: 0 }}
         animate={{ scale: 1 }}
         transition={{ delay: 0.2, type: "spring", stiffness: 200 }}
       >
-        <CheckCircle className="mx-auto mb-4 h-16 w-16 text-accent" />
+        <div className="mx-auto mb-6 flex h-20 w-20 items-center justify-center border-4 border-black bg-accent rounded-none shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]">
+          <CheckCircle className="h-10 w-10 text-black" />
+        </div>
       </motion.div>
 
-      <h2 className="mb-2 text-2xl font-bold text-text-primary">
+      <h2 className="mb-2 text-3xl font-black text-black uppercase tracking-tight">
         Donation Sent!
       </h2>
-      <p className="mb-6 text-4xl font-bold text-accent">
+      <p className="mb-2 text-5xl font-black text-chainlink stroke-black">
         {formatUsd(amountUsd)}
       </p>
-      <p className="mb-6 text-sm text-text-secondary">
+      <p className="mb-8 text-base font-bold text-gray-500 uppercase">
         Paid with {tokenSymbol}
       </p>
 
-      <div className="mb-6 flex items-center justify-center gap-2 rounded-lg border border-border bg-surface-elevated px-4 py-2">
-        <span className="text-xs text-text-muted">TX:</span>
-        <span className="text-xs text-text-secondary">
+      <div className="mb-8 flex items-center justify-center gap-2 border-2 border-black bg-white px-4 py-3 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]">
+        <span className="text-xs font-bold text-gray-500 uppercase">TX:</span>
+        <span className="text-xs font-bold text-black font-mono">
           {truncateAddress(txHash, 8)}
         </span>
-        <button onClick={copyTxHash} className="text-text-muted hover:text-text-primary">
-          <Copy className="h-3.5 w-3.5" />
+        <button
+          onClick={copyTxHash}
+          className="text-gray-500 hover:text-black transition-colors"
+        >
+          <Copy className="h-4 w-4" />
         </button>
         <a
           href={explorerUrl}
           target="_blank"
           rel="noopener noreferrer"
-          className="text-chainlink hover:text-chainlink-light"
+          className="text-chainlink hover:text-black transition-colors"
         >
-          <ExternalLink className="h-3.5 w-3.5" />
+          <ExternalLink className="h-4 w-4" />
         </a>
       </div>
 
       <button
         onClick={onReset}
-        className="rounded-xl border border-border bg-surface-elevated px-6 py-2.5 text-sm font-medium text-text-primary transition-all hover:bg-surface-hover"
+        className="border-2 border-black bg-white px-8 py-3 text-base font-bold text-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] transition-all hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] active:translate-x-[4px] active:translate-y-[4px] active:shadow-none"
       >
         Send Another Donation
       </button>

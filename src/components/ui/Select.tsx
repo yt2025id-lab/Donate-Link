@@ -8,8 +8,10 @@ interface SelectOption {
   label: string;
 }
 
-interface SelectProps
-  extends Omit<SelectHTMLAttributes<HTMLSelectElement>, "onChange"> {
+interface SelectProps extends Omit<
+  SelectHTMLAttributes<HTMLSelectElement>,
+  "onChange"
+> {
   label?: string;
   options: SelectOption[];
   value?: string;
@@ -43,13 +45,13 @@ function Select({
           value={value}
           onChange={(e) => onChange?.(e.target.value)}
           className={cn(
-            "w-full appearance-none rounded-lg border border-border bg-surface-elevated",
+            "w-full appearance-none border-2 border-black bg-surface-elevated font-medium",
             "px-3 py-2 pr-8 text-sm text-text-primary",
-            "transition-colors duration-200",
-            "focus:outline-none focus:border-chainlink focus:ring-1 focus:ring-chainlink/40",
+            "transition-all duration-200",
+            "focus:outline-none focus:border-black focus:shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] focus:-translate-y-[2px] focus:-translate-x-[2px]",
             "disabled:opacity-50 disabled:cursor-not-allowed",
             "cursor-pointer",
-            className
+            className,
           )}
           {...props}
         >

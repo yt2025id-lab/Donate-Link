@@ -26,22 +26,22 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
           ref={ref}
           id={inputId}
           className={cn(
-            "w-full rounded-lg border bg-surface-elevated px-3 py-2 text-sm text-text-primary",
+            "w-full border-2 bg-surface-elevated px-3 py-2 text-sm text-text-primary font-medium",
             "placeholder:text-text-muted",
-            "transition-colors duration-200",
-            "focus:outline-none focus:ring-1",
+            "transition-all duration-200",
+            "focus:outline-none focus:shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] focus:-translate-y-[2px] focus:-translate-x-[2px]",
             error
-              ? "border-danger focus:border-danger focus:ring-danger/40"
-              : "border-border focus:border-chainlink focus:ring-chainlink/40",
-            "disabled:opacity-50 disabled:cursor-not-allowed",
-            className
+              ? "border-danger focus:border-danger"
+              : "border-black focus:border-black",
+            "disabled:opacity-50 disabled:cursor-not-allowed bg-white",
+            className,
           )}
           {...props}
         />
         {error && <p className="text-xs text-danger">{error}</p>}
       </div>
     );
-  }
+  },
 );
 
 Input.displayName = "Input";

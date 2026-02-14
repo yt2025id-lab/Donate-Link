@@ -1,10 +1,10 @@
-'use client';
+"use client";
 
-import { useCallback } from 'react';
-import { motion } from 'framer-motion';
-import { Link2, Monitor, Copy, Check } from 'lucide-react';
-import { toast } from 'sonner';
-import { Button } from '@/components/ui/Button';
+import { useCallback } from "react";
+import { motion } from "framer-motion";
+import { Link2, Monitor, Copy, Check } from "lucide-react";
+import { toast } from "sonner";
+import { Button } from "@/components/ui/Button";
 
 interface ShareLinkCardProps {
   username: string;
@@ -23,31 +23,33 @@ function CopyRow({
   const handleCopy = useCallback(async () => {
     try {
       await navigator.clipboard.writeText(url);
-      toast.success('Copied to clipboard!', {
+      toast.success("Copied to clipboard!", {
         description: url,
         icon: <Check className="h-4 w-4" />,
       });
     } catch {
-      toast.error('Failed to copy');
+      toast.error("Failed to copy");
     }
   }, [url]);
 
   return (
-    <div className="flex items-center gap-3 rounded-xl bg-surface-elevated border border-border/50 p-3">
-      <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-chainlink/10 text-chainlink">
+    <div className="flex items-center gap-3 bg-white border-2 border-black p-3 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]">
+      <div className="flex h-10 w-10 shrink-0 items-center justify-center border-2 border-black bg-chainlink text-white">
         {icon}
       </div>
       <div className="min-w-0 flex-1">
-        <p className="text-xs font-medium text-text-muted mb-0.5">{label}</p>
-        <p className="text-sm font-medium text-text-primary truncate">{url}</p>
+        <p className="text-xs font-bold text-gray-500 mb-0.5 uppercase tracking-wide">
+          {label}
+        </p>
+        <p className="text-sm font-bold text-black truncate">{url}</p>
       </div>
       <Button
         variant="ghost"
         size="sm"
         onClick={handleCopy}
-        className="shrink-0"
+        className="shrink-0 hover:bg-white hover:shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] border-2 border-transparent hover:border-black transition-all"
       >
-        <Copy className="h-3.5 w-3.5" />
+        <Copy className="h-4 w-4" />
         <span className="sr-only">Copy</span>
       </Button>
     </div>
@@ -55,8 +57,7 @@ function CopyRow({
 }
 
 export function ShareLinkCard({ username, walletAddress }: ShareLinkCardProps) {
-  const origin =
-    typeof window !== 'undefined' ? window.location.origin : '';
+  const origin = typeof window !== "undefined" ? window.location.origin : "";
 
   const donationUrl = `${origin}/${username}`;
   const overlayUrl = `${origin}/overlay/${walletAddress}`;
@@ -66,31 +67,31 @@ export function ShareLinkCard({ username, walletAddress }: ShareLinkCardProps) {
       initial={{ opacity: 0, y: 16 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.4, delay: 0.1 }}
-      className="bg-surface-card border border-border rounded-2xl p-5"
+      className="bg-white border-2 border-black p-6 shadow-[8px_8px_0px_0px_rgba(0,0,0,1)]"
     >
-      <div className="flex items-center gap-3 mb-4">
-        <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-chainlink/10 text-chainlink">
-          <Link2 className="h-4.5 w-4.5" />
+      <div className="flex items-center gap-4 mb-6">
+        <div className="flex h-12 w-12 items-center justify-center border-2 border-black bg-chainlink text-white shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]">
+          <Link2 className="h-6 w-6" />
         </div>
         <div>
-          <h3 className="text-base font-semibold text-text-primary">
+          <h3 className="text-lg font-bold text-black uppercase tracking-tight">
             Your Links
           </h3>
-          <p className="text-xs text-text-muted">
+          <p className="text-sm font-medium text-gray-600">
             Share these links with your audience
           </p>
         </div>
       </div>
 
-      <div className="space-y-3">
+      <div className="space-y-4">
         <CopyRow
           label="Donation Page"
-          icon={<Link2 className="h-4 w-4" />}
+          icon={<Link2 className="h-5 w-5" />}
           url={donationUrl}
         />
         <CopyRow
           label="OBS Overlay"
-          icon={<Monitor className="h-4 w-4" />}
+          icon={<Monitor className="h-5 w-5" />}
           url={overlayUrl}
         />
       </div>

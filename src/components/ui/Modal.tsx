@@ -17,7 +17,7 @@ function Modal({ isOpen, onClose, title, children, className }: ModalProps) {
     (e: KeyboardEvent) => {
       if (e.key === "Escape") onClose();
     },
-    [onClose]
+    [onClose],
   );
 
   useEffect(() => {
@@ -53,8 +53,8 @@ function Modal({ isOpen, onClose, title, children, className }: ModalProps) {
             transition={{ duration: 0.2, ease: "easeOut" }}
             className={cn(
               "relative z-10 w-full max-w-lg mx-4",
-              "bg-surface-card border border-border rounded-2xl shadow-2xl shadow-black/40",
-              className
+              "bg-surface-card border-2 border-black shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] p-0",
+              className,
             )}
           >
             {/* Header */}

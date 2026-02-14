@@ -27,23 +27,25 @@ export function FeePreview({
   const streamerReceives = amountUsd - platformFeeUsd;
 
   return (
-    <div className="rounded-xl border border-border bg-surface-elevated/50 p-4">
-      <div className="space-y-2 text-sm">
+    <div className="border-2 border-black bg-white p-4 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]">
+      <div className="space-y-3 text-sm font-medium">
         <div className="flex justify-between">
-          <span className="text-text-secondary">You send</span>
-          <span className="font-medium text-text-primary">
+          <span className="text-gray-600">You send</span>
+          <span className="font-bold text-black">
             {formatToken(tokenAmount)} {tokenSymbol}
-            <span className="ml-1 text-text-muted">({formatUsd(amountUsd)})</span>
+            <span className="ml-1 text-gray-500 font-normal">
+              ({formatUsd(amountUsd)})
+            </span>
           </span>
         </div>
         <div className="flex justify-between">
-          <span className="text-text-secondary">Platform fee (5%)</span>
-          <span className="text-text-muted">-{formatUsd(platformFeeUsd)}</span>
+          <span className="text-gray-600">Platform fee (5%)</span>
+          <span className="text-gray-500">-{formatUsd(platformFeeUsd)}</span>
         </div>
         {sourceChain !== "base" && (
           <div className="flex justify-between">
-            <span className="text-text-secondary">CCIP bridge fee</span>
-            <span className="text-text-muted">
+            <span className="text-gray-600">CCIP bridge fee</span>
+            <span className="text-gray-500">
               {isFeeLoading
                 ? "estimating..."
                 : ccipFeeUsd
@@ -52,10 +54,12 @@ export function FeePreview({
             </span>
           </div>
         )}
-        <div className="border-t border-border pt-2">
-          <div className="flex justify-between">
-            <span className="font-medium text-text-primary">Creator receives</span>
-            <span className="font-bold text-accent">{formatUsd(streamerReceives)}</span>
+        <div className="border-t-2 border-black pt-3">
+          <div className="flex justify-between items-center">
+            <span className="font-bold text-black">Creator receives</span>
+            <span className="text-lg font-black text-accent-light stroke-black bg-black text-white px-2 py-0.5">
+              {formatUsd(streamerReceives)}
+            </span>
           </div>
         </div>
       </div>

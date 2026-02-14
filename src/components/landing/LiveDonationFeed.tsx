@@ -16,12 +16,14 @@ export function LiveDonationFeed() {
             <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-accent opacity-75" />
             <span className="relative inline-flex h-3 w-3 rounded-full bg-accent" />
           </div>
-          <h2 className="text-2xl font-bold text-text-primary">Live Donations</h2>
+          <h2 className="text-2xl font-bold text-text-primary">
+            Live Donations
+          </h2>
         </div>
 
         <div className="mx-auto max-w-2xl">
           {donations.length === 0 ? (
-            <div className="rounded-2xl border border-border bg-surface-card p-12 text-center">
+            <div className="rounded-2xl border border-border bg-white p-12 text-center">
               <Heart className="mx-auto mb-4 h-12 w-12 text-text-muted" />
               <p className="text-text-secondary">
                 No donations yet. Be the first to support a creator!
@@ -37,30 +39,33 @@ export function LiveDonationFeed() {
                     animate={{ opacity: 1, x: 0, height: "auto" }}
                     exit={{ opacity: 0, x: 20, height: 0 }}
                     transition={{ duration: 0.3 }}
-                    className="flex items-center justify-between rounded-xl border border-border bg-surface-card p-4"
+                    className="flex items-center justify-between border-2 border-black bg-white p-5 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]"
                   >
-                    <div className="flex items-center gap-3">
-                      <div className="flex h-10 w-10 items-center justify-center rounded-full bg-chainlink/10 text-sm font-bold text-chainlink">
+                    <div className="flex items-center gap-4">
+                      <div className="flex h-12 w-12 items-center justify-center border-2 border-black bg-chainlink text-lg font-bold text-white shadow-[2px_2px_0px_0px_rgba(0,0,0,1)]">
                         {donation.donor_name.charAt(0).toUpperCase()}
                       </div>
                       <div>
-                        <p className="text-sm font-medium text-text-primary">
+                        <p className="text-base font-bold text-black">
                           {donation.donor_name}{" "}
-                          <span className="text-text-muted">donated</span>
+                          <span className="text-gray-500 font-medium">
+                            donated
+                          </span>
                         </p>
                         {donation.message && (
-                          <p className="max-w-xs truncate text-xs text-text-secondary">
+                          <p className="max-w-xs truncate text-sm text-black font-medium bg-white px-2 py-0.5 mt-1 border border-black inline-block">
                             &ldquo;{donation.message}&rdquo;
                           </p>
                         )}
                       </div>
                     </div>
                     <div className="text-right">
-                      <p className="text-sm font-semibold text-accent">
+                      <p className="text-lg font-black text-accent-light stroke-black">
                         {formatUsd(donation.amount_usd)}
                       </p>
-                      <p className="text-xs text-text-muted">
-                        {donation.token_symbol} &bull; {timeAgo(donation.created_at)}
+                      <p className="text-xs font-bold text-gray-500">
+                        {donation.token_symbol} &bull;{" "}
+                        {timeAgo(donation.created_at)}
                       </p>
                     </div>
                   </motion.div>
